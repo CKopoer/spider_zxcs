@@ -159,7 +159,7 @@ if __name__ == '__main__':
             'https://www.zxcs.info/sort/11': '科幻灵异.csv', 
             'https://www.zxcs.info/sort/14': '历史军事.csv',
             'https://www.zxcs.info/sort/17': '竞技游戏.csv',
-            'https://www.zxcs.info/sort/20/page/29': '二次元.csv'
+            'https://www.zxcs.info/sort/20': '二次元.csv'
             }
 
     p = Pool(len(urls))
