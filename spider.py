@@ -14,7 +14,6 @@ url2 = 'https://www.zxcs.info/content/plugins/cgz_xinqing/cgz_xinqing_action.php
 review = ['仙草', '粮草', '干草', '枯草', '毒草']
 ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
 host = 'www.zxcs.info'
-# re1 = re.compile(r'^《(.*?)》.*?作者：(.*?)$')
 re1 = re.compile(r'^《(.*?)》.*?作者[：:] ?(.*?)$')
 re2 = re.compile(r'.*?(\d+)$')
 re3 = re.compile(r'.*?(\d+[.]\d+)')
