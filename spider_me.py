@@ -164,7 +164,7 @@ if __name__ == '__main__':
 
 
     Time = time.strftime("%Y-%m-%d", time.localtime())
-    path = "./result/" + Time + "/"
+    path = "./result/Me/" + Time + "/"
     mkdir(path)
 
     # Test Code

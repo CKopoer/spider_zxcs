@@ -162,15 +162,19 @@ if __name__ == '__main__':
             'https://www.zxcs.info/sort/20': '二次元.csv'
             }
 
-    p = Pool(len(urls))
-
     Time = time.strftime("%Y-%m-%d", time.localtime())
-    path = "./result/" + Time + "/"
+    path = "./result/Info/" + Time + "/"
     mkdir(path)
+
+    # Test Code
+    # for url, filename in urls.items():
+    #     get_csv(url, path + filename)
+
+
+    p = Pool(len(urls))
     for url, filename in urls.items():
         p.apply_async(get_csv, args=(url, path + filename))
 
-    
     print('Waiting for all subprocesses done...')
     p.close()
     p.join()
