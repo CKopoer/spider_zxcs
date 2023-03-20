@@ -11,6 +11,7 @@ import os
 
 review = ['仙草', '粮草', '干草', '枯草', '毒草']
 ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
+# ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
 re1 = re.compile(r'^《(.*?)》.*?作者[：:] ?(.*?)$')
 re2 = re.compile(r'.*?(\d+)$')
 re3 = re.compile(r'.*?(\d+[.]\d+)')
@@ -183,34 +184,41 @@ if __name__ == '__main__':
     mkdir(path2)
 
 
-    # p = Pool(len(urlsForMe) + len(urlsForInfo))
-    # for url, filename in urlsForMe.items():
-    #     p.apply_async(get_csv, args=(url, path1 + filename, 'zxcs.me'))
-
-    # for url, filename in urlsForInfo.items():
-    #     p.apply_async(get_csv, args=(url, path2 + filename, 'www.zxcs.info'))
-
-    # print('Waiting for all subprocesses done...')
-    # p.close()
-    # p.join()
-    # print('All subprocesses done.')
-
+    p = Pool(len(urlsForMe) + len(urlsForInfo))
+    for url, filename in urlsForMe.items():
+        p.apply_async(get_csv, args=(url, path1 + filename, 'zxcs.me'))
 
     for url, filename in urlsForInfo.items():
-        get_csv(url, path2 + filename, 'www.zxcs.info')
+        p.apply_async(get_csv, args=(url, path2 + filename, 'www.zxcs.info'))
+
+    print('Waiting for all subprocesses done...')
+    p.close()
+    p.join()
+    print('All subprocesses done.')
+
+
+    # for url, filename in urlsForInfo.items():
+    #     get_csv(url, path2 + filename, 'www.zxcs.info')
 
     print('Start Merge zxcs.me.')
     all_filenames = [i for i in glob.glob(path1 + '*.csv')]
     #在列表中合并所有文件
-    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
-    #导出 csv
-    combined_csv.to_csv(path1 + "Book.csv", index=False, encoding='utf-8-sig')
-    combined_csv.to_excel(path1 + 'Book.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
+    if not all_filenames:
+        print("No Files in zxcs.me.")
+    else:
+        combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+        #导出 csv
+        combined_csv.to_csv(path1 + "Book.csv", index=False, encoding='utf-8-sig')
+        combined_csv.to_excel(path1 + 'Book.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
+
 
     print('Start Merge zxcs.info.')
     all_filenames = [i for i in glob.glob(path2 + '*.csv')]
     #在列表中合并所有文件
-    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
-    #导出 csv
-    combined_csv.to_csv(path2 + "Book.csv", index=False, encoding='utf-8-sig')
-    combined_csv.to_excel(path2 + 'Book.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
+    if not all_filenames:
+        print("No Files in zxcs.info.")
+    else:
+        combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
+        #导出 csv
+        combined_csv.to_csv(path2 + "Book.csv", index=False, encoding='utf-8-sig')
+        combined_csv.to_excel(path2 + 'Book.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
