@@ -9,11 +9,11 @@ from multiprocessing import Pool
 import glob
 import os
 
-url2 = 'https://www.zxcs.info/content/plugins/cgz_xinqing/cgz_xinqing_action.php?action=mood&id={code}'
-# url3 = 'https://www.zxcs.info/download.php?id={code}'
+url2 = 'http://zxcs.me/content/plugins/cgz_xinqing/cgz_xinqing_action.php?action=mood&id={code}'
+# url3 = 'http://zxcs.me/download.php?id={code}'
 review = ['仙草', '粮草', '干草', '枯草', '毒草']
 ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
-host = 'www.zxcs.info'
+host = 'zxcs.me'
 re1 = re.compile(r'^《(.*?)》.*?作者[：:] ?(.*?)$')
 re2 = re.compile(r'.*?(\d+)$')
 re3 = re.compile(r'.*?(\d+[.]\d+)')
@@ -153,24 +153,29 @@ def get_csv(url, filename):
 
 if __name__ == '__main__':
     urls = {
-            'https://www.zxcs.info/sort/3': '都市娱乐.csv', 
-            'https://www.zxcs.info/sort/4': '武侠仙侠.csv', 
-            'https://www.zxcs.info/sort/8': '奇幻玄幻.csv', 
-            'https://www.zxcs.info/sort/11': '科幻灵异.csv', 
-            'https://www.zxcs.info/sort/14': '历史军事.csv',
-            'https://www.zxcs.info/sort/17': '竞技游戏.csv',
-            'https://www.zxcs.info/sort/20': '二次元.csv'
+            'http://zxcs.me/sort/23': '都市娱乐.csv', 
+            'http://zxcs.me/sort/25': '武侠仙侠.csv', 
+            'http://zxcs.me/sort/26': '奇幻玄幻.csv', 
+            'http://zxcs.me/sort/27': '科幻灵异.csv', 
+            'http://zxcs.me/sort/28': '历史军事.csv',
+            'http://zxcs.me/sort/29': '竞技游戏.csv',
+            'http://zxcs.me/sort/55': '二次元.csv'
             }
 
-    p = Pool(len(urls))
 
     Time = time.strftime("%Y-%m-%d", time.localtime())
     path = "./result/" + Time + "/"
     mkdir(path)
+
+    # Test Code
+    # for url, filename in urls.items():
+    #     get_csv(url, path + filename)
+
+
+    p = Pool(len(urls))
     for url, filename in urls.items():
         p.apply_async(get_csv, args=(url, path + filename))
 
-    
     print('Waiting for all subprocesses done...')
     p.close()
     p.join()
