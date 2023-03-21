@@ -198,22 +198,22 @@ if __name__ == '__main__':
     mkdir(path2)
 
     # MultiProcess
-    # p = Pool(len(urlsForMe) + len(urlsForInfo))
-    # for url, filename in urlsForMe.items():
-    #     p.apply_async(get_csv, args=(url, path1 + filename, 'zxcs.me'))
+    p = Pool(len(urlsForMe) + len(urlsForInfo))
+    for url, filename in urlsForMe.items():
+        p.apply_async(get_csv, args=(url, path1 + filename, 'zxcs.me'))
 
-    # for url, filename in urlsForInfo.items():
-    #     p.apply_async(get_csv, args=(url, path2 + filename, 'www.zxcs.info'))
+    for url, filename in urlsForInfo.items():
+        p.apply_async(get_csv, args=(url, path2 + filename, 'www.zxcs.info'))
 
-    # print('Waiting for all subprocesses done...')
-    # p.close()
-    # p.join()
-    # print('All subprocesses done.')
+    print('Waiting for all subprocesses done...')
+    p.close()
+    p.join()
+    print('All subprocesses done.')
 
 
     # Test Code
-    for url, filename in urlsForInfo.items():
-        get_csv(url, path2 + filename, 'www.zxcs.info')
+    # for url, filename in urlsForInfo.items():
+    #     get_csv(url, path2 + filename, 'www.zxcs.info')
 
 
 
