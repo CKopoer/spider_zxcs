@@ -10,8 +10,8 @@ import glob
 import os
 
 review = ['仙草', '粮草', '干草', '枯草', '毒草']
-ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
-# ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
+# ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
+ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
 re1 = re.compile(r'^《(.*?)》.*?作者[：:] ?(.*?)$')
 re2 = re.compile(r'.*?(\d+)$')
 re3 = re.compile(r'.*?(\d+[.]\d+)')
@@ -84,6 +84,14 @@ def get_review(item, code, host):
     for i in range(len(temp)):
         item[review[i]] = temp[i]
 
+    item['voter'] = 0
+    item['aggregate'] = 0
+    for idx, vote in enumerate(review):
+        num = item[vote]
+        item['voter'] += num
+        item['aggregate'] += (5 - idx) * num
+    item['score'] = round(item['aggregate'] / item['voter'], 4)
+
 def get_downloadLink(item, code, host):
     head = 'https://' if len(host) > 7 else 'http://'
 
@@ -134,7 +142,7 @@ def main(url, host, round=1000):
         next_u = has_next(tree)
         round -= 1
         if next_u:
-            time.sleep(2)
+            time.sleep(4)
             urls.append(next_u)
     return novels
 
@@ -183,7 +191,7 @@ if __name__ == '__main__':
     mkdir(path1)
     mkdir(path2)
 
-
+    # MultiProcess
     p = Pool(len(urlsForMe) + len(urlsForInfo))
     for url, filename in urlsForMe.items():
         p.apply_async(get_csv, args=(url, path1 + filename, 'zxcs.me'))
@@ -197,8 +205,14 @@ if __name__ == '__main__':
     print('All subprocesses done.')
 
 
+    # Test Code
     # for url, filename in urlsForInfo.items():
     #     get_csv(url, path2 + filename, 'www.zxcs.info')
+
+
+
+
+
 
     print('Start Merge zxcs.me.')
     all_filenames = [i for i in glob.glob(path1 + '*.csv')]
