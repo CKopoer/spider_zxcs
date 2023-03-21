@@ -131,4 +131,4 @@ dmypy.json
 /result
 
 /.vscode
-log.txt
+*.txt
