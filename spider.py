@@ -224,7 +224,7 @@ if __name__ == '__main__':
         combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
         #导出 csv
         combined_csv.to_csv(path1 + "Book.csv", index=False, encoding='utf-8-sig')
-        combined_csv.to_excel(path1 + 'Book.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
+        combined_csv.to_excel(path1 + 'Me.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
 
 
     print('Start Merge zxcs.info.')
@@ -236,4 +236,4 @@ if __name__ == '__main__':
         combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames])
         #导出 csv
         combined_csv.to_csv(path2 + "Book.csv", index=False, encoding='utf-8-sig')
-        combined_csv.to_excel(path2 + 'Book.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
+        combined_csv.to_excel(path2 + 'Info.xlsx', index=False, sheet_name='data', encoding='utf-8-sig')
