@@ -29,11 +29,12 @@ def get_wrapper(fun):
                 logger.error('[爬取异常]' + args[0])
                 r = ''
             return r
-        retry = 1
+        retry = 5
         r = inner()
         while not r and retry > 0:
             r = inner()
             retry -= 1
+            time.sleep(2)
         if r and r.status_code == 200:
             logger.info('[爬取成功]' + args[0])
         # r.encoding = r.apparent_encoding
@@ -138,11 +139,11 @@ def main(url, host, round=1000):
             get_review(item, item['code'], host)
             # get_downloadLink(item, item['code'], host)
         novels.append(items)
-        print(items)
+        # print(items)
         next_u = has_next(tree)
         round -= 1
         if next_u:
-            time.sleep(4)
+            time.sleep(2)
             urls.append(next_u)
     return novels
 
