@@ -90,7 +90,7 @@ def get_review(item, code, host):
         num = item[vote]
         item['voter'] += num
         item['aggregate'] += (5 - idx) * num
-    item['score'] = round(item['aggregate'] / item['voter'], 4)
+    item['score'] = 0 if (not item['voter']) else round(item['aggregate'] / item['voter'], 4)
 
 def get_downloadLink(item, code, host):
     head = 'https://' if len(host) > 7 else 'http://'
