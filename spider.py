@@ -56,7 +56,6 @@ def parse_tree(tree):
         code = re2.match(dt[0].xpath('@href')[0]).group(1)
 
         abstract = dd1[0].text.strip()
-        size = 0
         
         # abstract = abstract.split('正版订阅')[0].strip()
         cate1 = dd2[0].text
@@ -66,10 +65,9 @@ def parse_tree(tree):
             cate2 = dd2[1].tail.split()[0]
         else:
             cate2 = None
+        item['code'] = code
         item['title'] = title
         item['author'] = author
-        item['code'] = code
-        item['size'] = size
         item['abstract'] = abstract
         item['cate1'] = cate1
         item['cate2'] = cate2
